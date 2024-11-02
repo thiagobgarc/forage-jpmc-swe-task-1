@@ -27,11 +27,10 @@ import os.path
 import re
 import threading
 from datetime import timedelta, datetime
-# from itertools import izip
-from random import normalvariate, random
 from socketserver import ThreadingMixIn
 
 import dateutil.parser
+import secrets
 
 ################################################################################
 #
@@ -62,7 +61,7 @@ def bwalk(min, max, std):
     """ Generates a bounded random walk. """
     rng = max - min
     while True:
-        max += normalvariate(0, std)
+        max += secrets.SystemRandom().normalvariate(0, std)
         yield abs((max % (rng * 2)) - rng) + min
 
 
@@ -80,10 +79,10 @@ def orders(hist):
         a series of market conditions.
     """
     for t, px, spd in hist:
-        stock = 'ABC' if random() > 0.5 else 'DEF'
-        side, d = ('sell', 2) if random() > 0.5 else ('buy', -2)
-        order = round(normalvariate(px + (spd / d), spd / OVERLAP), 2)
-        size = int(abs(normalvariate(0, 100)))
+        stock = 'ABC' if secrets.SystemRandom().random() > 0.5 else 'DEF'
+        side, d = ('sell', 2) if secrets.SystemRandom().random() > 0.5 else ('buy', -2)
+        order = round(secrets.SystemRandom().normalvariate(px + (spd / d), spd / OVERLAP), 2)
+        size = int(abs(secrets.SystemRandom().normalvariate(0, 100)))
         yield t, stock, side, order, size
 
 
