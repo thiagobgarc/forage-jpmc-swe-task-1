@@ -19,8 +19,8 @@
 #  DEALINGS IN THE SOFTWARE.
 
 import json
-import random
 import urllib.request
+import secrets
 
 # Server API URLs
 QUERY = "http://localhost:8080/query?id={}"
@@ -51,7 +51,7 @@ def getRatio(price_a, price_b):
 if __name__ == "__main__":
     # Query the price once every N seconds.
     for _ in iter(range(N)):
-        quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+        quotes = json.loads(urllib.request.urlopen(QUERY.format(secrets.SystemRandom().random())).read())
 
         """ ----------- Update to get the ratio --------------- """
         for quote in quotes:
